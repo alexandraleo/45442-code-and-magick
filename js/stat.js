@@ -39,6 +39,7 @@ window.renderStatistics = function (ctx, names, times) {
     }
   };
   var drawDiagram = function () {
+    var maxTime = results[results.length - 1][0];
     for (var i = 0; i <= names.length - 1; i++) {
       var name = results[i][1];
       var time = results[i][0];
@@ -69,6 +70,5 @@ window.renderStatistics = function (ctx, names, times) {
   drawText(['Ура, вы победили!', 'Список результатов:'], leftPadding, topPadding, indent);
   collectResults();
   sort(results);
-  var maxTime = results[results.length - 1][0];
   drawDiagram(drawBar);
 };
