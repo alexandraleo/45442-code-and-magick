@@ -14,7 +14,6 @@ var cloudBlockColor = 'rgba(255, 255, 255, 1)';
 var textColor = 'rgba(0, 0, 0, 1)';
 var heroColor = 'rgba(255, 0, 0, 1)';
 
-var results = [];
 var getRandom = function (number) {
   return Math.random() * number;
 };
@@ -33,7 +32,7 @@ var drawText = function (ctx, x, y, array) {
 };
 
 window.renderStatistics = function (ctx, names, times) {
-
+  var results = [];
   var drawBar = function (itemHeight, time, name) {
     if (name === 'Вы') {
       ctx.fillStyle = heroColor;
@@ -54,9 +53,13 @@ window.renderStatistics = function (ctx, names, times) {
     sort(results);
   };
 
-  var drawDiagram = function (name, time, maxTime, itemHeight, timeInSec) {
+  var drawDiagram = function () {
+    var name;
+    var time;
+    var itemHeight;
+    var timeInSec;
     collectResults();
-    maxTime = results[results.length - 1][0];
+    var maxTime = results[results.length - 1][0];
     for (var i = 0; i <= names.length - 1; i++) {
       name = results[i][1];
       time = results[i][0];
