@@ -7,10 +7,9 @@ var barWidth = 40;
 var barGap = 50;
 var topBarPadding = 100;
 var bottomBarPadding = 265;
-var barX = leftPadding;
-var barY = topBarPadding;
 var shadowBlockColor = 'rgba(0, 0, 0, 0.7)';
 var cloudBlockColor = 'rgba(255, 255, 255, 1)';
+var textFont = '16px PT Mono';
 var textColor = 'rgba(0, 0, 0, 1)';
 var heroColor = 'rgba(255, 0, 0, 1)';
 
@@ -25,20 +24,21 @@ var sort = function (array) {
 var colorAlpha = function (r, g, b, a) {
   return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + a + ')';
 };
+var drawBlock = function (ctx, x, y, width, height, color) {
+  ctx.fillStyle = color;
+  ctx.fillRect(x, y, width, height);
+};
 var drawText = function (ctx, x, y, array) {
+  ctx.font = textFont;
+  ctx.fillStyle = textColor;
   for (var i = 0; i < array.length; i++) {
     ctx.fillText(array[i], x, y + i * indent);
   }
 };
 
 window.renderStatistics = function (ctx, names, times) {
-  var results = [];
-  var drawBar = function (itemHeight, time, name) {
-    if (name === 'Вы') {
-      ctx.fillStyle = heroColor;
-    } else {
-      ctx.fillStyle = colorAlpha(0, 0, 255, getRandom(1));
-    }
+  var drawBar = function (barX, barY, itemHeight, barColor, time, name) {
+    ctx.fillStyle = barColor;
     ctx.fillRect(barX, barY, barWidth, itemHeight);
     ctx.fillStyle = textColor;
     ctx.textAlign = 'center';
@@ -46,42 +46,36 @@ window.renderStatistics = function (ctx, names, times) {
     ctx.fillText(name, barX + barWidth / 2, bottomBarPadding);
   };
 
-  var collectResults = function () {
-    for (var i = 0; i <= names.length - 1; i++) {
-      results.push([times[i], names[i]]);
-    }
-    sort(results);
-  };
+  var results = names.map(function (name, i) {
+    return [times[i], name];
+  });
 
   var drawDiagram = function () {
-    var name;
-    var time;
-    var itemHeight;
-    var timeInSec;
-    collectResults();
     var maxTime = results[results.length - 1][0];
     for (var i = 0; i <= names.length - 1; i++) {
-      name = results[i][1];
-      time = results[i][0];
-      barX = leftPadding + (barGap + barWidth) * i;
-      itemHeight = Math.floor(barHeight * time / maxTime);
-      barY = topBarPadding + (barHeight - itemHeight);
-      timeInSec = Math.floor(time) + 'мс';
-      drawBar(itemHeight, timeInSec, name);
+      var name = results[i][1];
+      var time = results[i][0];
+      var barX = leftPadding + (barGap + barWidth) * i;
+      var itemHeight = Math.floor(barHeight * time / maxTime);
+      var barY = topBarPadding + (barHeight - itemHeight);
+      var timeInSec = Math.floor(time) + 'мс';
+
+      if (name === 'Вы') {
+        var barColor = heroColor;
+      } else {
+        barColor = colorAlpha(0, 0, 255, getRandom(1));
+      }
+
+      drawBar(barX, barY, itemHeight, barColor, timeInSec, name);
     }
   };
 
-  ctx.fillStyle = shadowBlockColor;
-  ctx.fillRect(110, 20, 420, 270);
-  ctx.fillStyle = cloudBlockColor;
-  ctx.fillRect(100, 10, 420, 270);
-  ctx.font = '16px PT Mono';
-  ctx.fillStyle = textColor;
-
+  drawBlock(ctx, 110, 20, 420, 270, shadowBlockColor);
+  drawBlock(ctx, 100, 10, 420, 270, cloudBlockColor);
   drawText(ctx, leftPadding, topPadding, [
     'Ура, вы победили!',
     'Список результатов:'
   ]);
-
+  sort(results);
   drawDiagram();
 };
