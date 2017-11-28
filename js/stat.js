@@ -56,9 +56,10 @@ var drawDiagram = function (ctx, names, times) {
     var itemHeight = Math.floor(barHeight * time / maxTime);
     var barY = topBarPadding + (barHeight - itemHeight);
     var timeInSec = Math.floor(time) + 'мс';
+    var barColor;
 
     if (name === 'Вы') {
-      var barColor = heroColor;
+      barColor = heroColor;
     } else {
       barColor = colorAlpha(0, 0, 255, getRandom(1));
     }
