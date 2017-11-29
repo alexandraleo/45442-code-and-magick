@@ -14,7 +14,7 @@ var getRandom = function (array) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
-var SimilarWizard = function (index) {
+var Wizard = function (index) {
   var NAMES = [
     'Иван', 'Хуан Себастьян', 'Мария', 'Кристоф',
     'Виктор', 'Юлия', 'Люпита', 'Вашингтон'
@@ -31,11 +31,8 @@ var SimilarWizard = function (index) {
     'black', 'red', 'blue',
     'yellow', 'green'
   ];
-  var fullNames = NAMES.map(function () {
-    return getRandom(NAMES) + ' ' + getRandom(SURNAMES);
-  });
 
-  this.name = fullNames[index];
+  this.name = getRandom(NAMES) + ' ' + getRandom(SURNAMES);
   this.coatColor = getRandom(COAT_COLOR);
   this.eyesColor = getRandom(EYES_COLOR);
 };
@@ -51,7 +48,7 @@ var placeWizard = function (wizard) {
 };
 
 for (var i = 0; i < wizardsCount; i++) {
-  var wizard = new SimilarWizard(i);
+  var wizard = new Wizard(i);
   fragment.appendChild(placeWizard(wizard));
 }
 
