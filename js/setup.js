@@ -4,11 +4,11 @@
 var setupWindow = document.querySelector('.setup');
 setupWindow.classList.remove('hidden');
 // Все похожие волшебники
-var similarWizardBlock = setupWindow.querySelector('.setup-similar-list');
+var similarList = setupWindow.querySelector('.setup-similar-list');
 // Шаблон для волшебника
 var wizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 var fragment = document.createDocumentFragment();
-var similarWizardsQuantity = 4;
+var wizardsCount = 4;
 
 var getRandom = function (array) {
   return array[Math.floor(Math.random() * array.length)];
@@ -39,21 +39,21 @@ var SimilarWizard = function (index) {
   this.coatColor = getRandom(COAT_COLOR);
   this.eyesColor = getRandom(EYES_COLOR);
 };
-var placeSimilarWizard = function (wizard) {
 
-  var oneSimilarWizard = wizardTemplate.cloneNode(true);
+var placeWizard = function (wizard) {
+  var wizardNode = wizardTemplate.cloneNode(true);
 
-  oneSimilarWizard.querySelector('.setup-similar-label').textContent = wizard.name;
-  oneSimilarWizard.querySelector('.wizard-coat').style.fill = wizard.coatColor;
-  oneSimilarWizard.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+  wizardNode.querySelector('.setup-similar-label').textContent = wizard.name;
+  wizardNode.querySelector('.wizard-coat').style.fill = wizard.coatColor;
+  wizardNode.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
 
-  return oneSimilarWizard;
+  return wizardNode;
 };
 
-for (var i = 0; i < similarWizardsQuantity; i++) {
+for (var i = 0; i < wizardsCount; i++) {
   var wizard = new SimilarWizard(i);
-  fragment.appendChild(placeSimilarWizard(wizard));
+  fragment.appendChild(placeWizard(wizard));
 }
 
-similarWizardBlock.appendChild(fragment);
+similarList.appendChild(fragment);
 setupWindow.querySelector('.setup-similar').classList.remove('hidden');
