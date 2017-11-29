@@ -14,7 +14,7 @@ var getRandom = function (array) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
-var Wizard = function (index) {
+var Wizard = function () {
   var NAMES = [
     'Иван', 'Хуан Себастьян', 'Мария', 'Кристоф',
     'Виктор', 'Юлия', 'Люпита', 'Вашингтон'
