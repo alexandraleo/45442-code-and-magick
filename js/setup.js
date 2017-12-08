@@ -41,17 +41,13 @@ var closeWindow = function () {
   document.removeEventListener('keydown', onWindowEscPress);
 };
 
-setupOpen.addEventListener('click', function () {
-  openWindow();
-});
+setupOpen.addEventListener('click', openWindow);
 setupOpen.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEY) {
     openWindow();
   }
 });
-setupClose.addEventListener('click', function () {
-  closeWindow();
-});
+setupClose.addEventListener('click', closeWindow);
 setupClose.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ENTER_KEY) {
     closeWindow();
